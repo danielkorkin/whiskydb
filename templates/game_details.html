@@ -2,16 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ game.name }}</title>
+    <title>Game Details</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<div id="game-details">
-    <h1>{{ game.name }}</h1>
-    <img src="{{ game.header_image }}" alt="Game Header Image">
-    <p>Release Date: {{ game.release_date.date }}</p>
-    <p>Average Rating: {{ average_rating }}</p>
-    <!-- Add rating buttons here -->
-</div>
+    <div id="game-details">
+        <h1>{{ game.name }}</h1>
+        <img src="{{ game.header_image }}" alt="{{ game.name }} header image">
+        <p>Release Date: {{ game.release_date.date }}</p>
+        <p>Average Rating: <span class="{{ rating_category|lower }}">{{ rating_category }}</span> ({{ average_rating }})</p>
+        <div id="game-notes">
+            <h2>Notes:</h2>
+            <p>{{ notes }}</p>
+        </div>
+        <div id="rating-buttons">
+            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="0" onclick="submitRating(this)">Unsupported</button>
+            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="1" onclick="submitRating(this)">Bronze</button>
+            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="2" onclick="submitRating(this)">Silver</button>
+            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="3" onclick="submitRating(this)">Gold</button>
+            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="4" onclick="submitRating(this)">Platinum</button>
+        </div>
+        
+    </div>
+    <script src="/static/script.js"></script>
 </body>
 </html>

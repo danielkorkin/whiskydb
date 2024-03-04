@@ -4,19 +4,17 @@ import json
 
 app = Flask(__name__)
 
-# Load or initialize ratings data
+# Load or initialize the ratings and notes data
 try:
     with open('ratings.json') as f:
         ratings = json.load(f)
 except FileNotFoundError:
     ratings = []
 
-# Route for the main page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Route for searching games
 @app.route('/search', methods=['POST'])
 def search():
     query = request.json['query'].lower().replace('™', '').replace('©', '')
@@ -26,33 +24,59 @@ def search():
                             key=lambda x: x['name'].lower() == query, reverse=True)[:15]
     return jsonify(filtered_games)
 
-# Route for fetching game details
 @app.route('/game_details/<int:appid>')
 def game_details(appid):
     steam_response = requests.get(f"https://store.steampowered.com/api/appdetails?appids={appid}")
     game_details = steam_response.json().get(str(appid), {}).get('data', {})
     if not game_details:
         return "Game details not found.", 404
-    game_rating = next((item for item in ratings if item['appid'] == appid), None)
-    if game_rating:
-        average_rating = sum(game_rating['ratings']) / len(game_rating['ratings'])
+    game_notes = next((item for item in ratings if item['appid'] == appid), {}).get('notes', "No notes available for this game.")
+    game_rating_info = next((item for item in ratings if item['appid'] == appid), None)
+    if game_rating_info and game_rating_info['ratings']:
+        average_rating = sum(game_rating_info['ratings']) / len(game_rating_info['ratings'])
+        if average_rating < 1:
+            rating_category = "Unsupported"
+        elif average_rating < 2:
+            rating_category = "Bronze"
+        elif average_rating < 3:
+            rating_category = "Silver"
+        elif average_rating < 4:
+            rating_category = "Gold"
+        else:
+            rating_category = "Platinum"
     else:
-        average_rating = "Not Rated"
-    return render_template('game_details.html', game=game_details, average_rating=average_rating)
+        average_rating = 0
+        rating_category = "Unsupported"
+    
+    return render_template('game_details.html', game=game_details, notes=game_notes, average_rating=average_rating, rating_category=rating_category)
 
-# Route for submitting ratings
+
 @app.route('/rate_game', methods=['POST'])
 def rate_game():
-    appid = request.json['appid']
-    rating = request.json['rating']
-    game_rating = next((item for item in ratings if item['appid'] == appid), None)
-    if game_rating:
-        game_rating['ratings'].append(rating)
-    else:
-        ratings.append({"appid": appid, "ratings": [rating]})
+    content = request.json
+    appid = content['appid']
+    rating = content['rating']
+    notes = content.get('notes', '')
+    found = False
+    appid = int(appid)
+    rating = int(rating)
+    
+    for game_rating in ratings:
+        if game_rating['appid'] == appid:
+            game_rating['ratings'].append(rating)
+            if notes:
+                game_rating['notes'] = notes
+            found = True
+            break
+    
+    if not found:
+        ratings.append({"appid": appid, "ratings": [rating], "notes": notes})
+    
     with open('ratings.json', 'w') as f:
-        json.dump(ratings, f)
+        json.dump(ratings, f, indent=4)
+    
     return jsonify({"success": True})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

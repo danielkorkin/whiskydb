@@ -17,7 +17,7 @@ input[type="text"], button {
 }
 
 input[type="text"] {
-    width: calc(100% - 90px);
+    width: calc(100% - 120px);
 }
 
 button {
@@ -30,11 +30,7 @@ button:hover {
     background-color: #555;
 }
 
-#results {
-    margin-top: 20px;
-}
-
-.game-result {
+#results div {
     padding: 10px;
     background-color: #222;
     margin-bottom: 10px;
@@ -42,17 +38,25 @@ button:hover {
     border-radius: 5px;
 }
 
-.game-result:hover {
+#results div:hover {
     background-color: #333;
 }
 
-@media (max-width: 600px) {
-    input[type="text"] {
-        width: calc(100% - 20px);
-        margin-bottom: 10px;
-    }
-
-    button {
-        width: 100%;
-    }
+#game-details img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
 }
+
+#game-notes {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.unsupported { color: #808080; } /* Gray */
+.bronze { color: #cd7f32; } /* Bronze */
+.silver { color: #c0c0c0; } /* Silver */
+.gold { color: #ffd700; } /* Gold */
+.platinum { color: #e5e4e2; } /* Platinum */
