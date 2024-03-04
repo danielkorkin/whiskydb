@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ game.name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="game-details">
+    <h1>{{ game.name }}</h1>
+    <img src="{{ game.header_image }}" alt="Game Header Image">
+    <p>Release Date: {{ game.release_date.date }}</p>
+    <p>Average Rating: {{ average_rating }}</p>
+    <!-- Add rating buttons here -->
+</div>
+</body>
+</html>
