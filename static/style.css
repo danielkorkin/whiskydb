@@ -19,6 +19,7 @@ input[type="text"], button {
 
 input[type="text"] {
     width: calc(100% - 120px);
+    
 }
 
 button {
@@ -77,8 +78,34 @@ form button {
 }
 
 #ratingDistributionChart {
-    max-width: 600px;
-    max-height: 600px;
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.h1link:link {
+    color:white;
+    text-decoration: none;
+}
+
+.h1link:visited {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.h1link:hover {
+    color:white;
+    text-decoration:underline;
+}
+
+.h1link:visited {
+    color: whitesmoke;
+    text-decoration: underline;
 }
 
 .unsupported { color: #808080; } /* Gray */

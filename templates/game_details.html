@@ -7,9 +7,10 @@
 </head>
 <body>
     <div id="game-details">
-        <h1>{{ game.name }}</h1>
+        <h1><a href="https://store.steampowered.com/app/{{ game.steam_appid }}" class="h1link" target="_blank">{{ game.name }}</a></h1>
         <img src="{{ game.header_image }}" alt="{{ game.name }} header image">
         <p>Release Date: {{ game.release_date.date }}</p>
+        <p>{{ game.short_description }}</p>
         <p>Average Rating: <span class="{{ rating_category|lower }}">{{ rating_category }}</span> ({{ average_rating }})</p>
         
         <div id="notes-section">
