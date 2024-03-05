@@ -26,7 +26,7 @@ def search():
 
 @app.route('/game_details/<int:appid>')
 def game_details(appid):
-    steam_response = requests.get(f"https://store.steampowered.com/api/appdetails?appids={appid}")
+    steam_response = requests.get(f"https://store.steampowered.com/api/appdetails?appids={appid}&l=en")
     game_details = steam_response.json().get(str(appid), {}).get('data', {})
     if not game_details:
         return "Game details not found.", 404
