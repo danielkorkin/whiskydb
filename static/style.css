@@ -108,8 +108,38 @@ form button {
     text-decoration: underline;
 }
 
+hr {
+    width: calc(100% - 100px);
+    float:left;
+}
+
 .unsupported { color: #808080; } /* Gray */
 .bronze { color: #cd7f32; } /* Bronze */
 .silver { color: #c0c0c0; } /* Silver */
 .gold { color: #ffd700; } /* Gold */
 .platinum { color: #e5e4e2; } /* Platinum */
+
+#unsupported-btn {
+    background-color: #808080;
+    color: white;
+}
+
+#bronze-btn {
+    background-color: #cd7f32;
+    color: white    ;
+}
+
+#silver-btn {
+    background-color: #c0c0c0;
+    color: white
+}
+
+#gold-btn {
+    background-color: #ffd700;
+    color: white;
+}
+
+#platinum-btn {
+    background-color: #e5e4e2;
+    color: white;
+}

@@ -17,20 +17,25 @@
             {% if notes[0] != "No notes available for this game." %}
                 {% for note in notes %}
                     <div class="note">{{ note }}</div>
-                    <hr>
+                    <br>
                 {% endfor %}
             {% else %}
                 <p>{{ notes[0] }}</p>
             {% endif %}
         </div>        
 
+        <hr>
+
         <div id="rating-buttons">
-            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="0" onclick="submitRating(this)">Unsupported</button>
-            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="1" onclick="submitRating(this)">Bronze</button>
-            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="2" onclick="submitRating(this)">Silver</button>
-            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="3" onclick="submitRating(this)">Gold</button>
-            <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="4" onclick="submitRating(this)">Platinum</button>
+            <button id="unsupported-btn" class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="0" onclick="submitRating(this)">Unsupported</button>
+            <button id="bronze-btn" class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="1" onclick="submitRating(this)">Bronze</button>
+            <button id="silver-btn" class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="2" onclick="submitRating(this)">Silver</button>
+            <button id="gold-btn" class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="3" onclick="submitRating(this)">Gold</button>
+            <button id="platinum-btn" class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="4" onclick="submitRating(this)">Platinum</button>
         </div>
+
+        
+        <hr>
 
         <form action="/add_note/{{ game.steam_appid }}" method="post">
             <textarea name="note" placeholder="Add a note..."></textarea>
