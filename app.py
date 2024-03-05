@@ -99,6 +99,22 @@ def add_note(appid):
 
     return redirect(url_for('game_details', appid=appid))
 
+@app.route('/rating_distribution')
+def rating_distribution():
+    distribution = {'Unsupported': 0, 'Bronze': 0, 'Silver': 0, 'Gold': 0, 'Platinum': 0}
+    for game in ratings:
+        average_rating = sum(game['ratings']) / len(game['ratings']) if game['ratings'] else 0
+        if average_rating < 1:
+            distribution['Unsupported'] += 1
+        elif average_rating < 2:
+            distribution['Bronze'] += 1
+        elif average_rating < 3:
+            distribution['Silver'] += 1
+        elif average_rating < 4:
+            distribution['Gold'] += 1
+        else:
+            distribution['Platinum'] += 1
+    return jsonify(distribution)
 
 if __name__ == '__main__':
     app.run(debug=True)

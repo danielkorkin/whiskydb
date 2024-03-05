@@ -76,6 +76,10 @@ form button {
     display: block;
 }
 
+#ratingDistributionChart {
+    max-width: 600px;
+    max-height: 600px;
+}
 
 .unsupported { color: #808080; } /* Gray */
 .bronze { color: #cd7f32; } /* Bronze */

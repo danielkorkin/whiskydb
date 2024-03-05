@@ -48,3 +48,45 @@ function submitRating(element) {
         alert("There was an error submitting your rating. Please try again.");
     });
 }
+
+fetch('/rating_distribution')
+    .then(response => response.json())
+    .then(distribution => {
+        const ctx = document.getElementById('ratingDistributionChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(distribution),
+                datasets: [{
+                    label: 'Game Compatibility Distribution',
+                    data: Object.values(distribution),
+                    backgroundColor: [
+                        '#cd7f32', // Bronze
+                        '#ffd700', // Gold
+                        '#e5e4e2', // Platinum
+                        '#c0c0c0', // Silver
+                        '#808080' // Gray for Unsupported   
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += `${context.parsed} games (${context.formattedValue}%)`;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
