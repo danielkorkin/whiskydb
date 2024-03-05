@@ -1,5 +1,14 @@
 [
     {
+        "appid": 1144200,
+        "ratings": [
+            1
+        ],
+        "notes": [
+            "Launches but laggy then crashes after 30s"
+        ]
+    },
+    {
         "appid": 2551020,
         "ratings": [
             4

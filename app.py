@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import requests
 import json
 
@@ -30,7 +30,10 @@ def game_details(appid):
     game_details = steam_response.json().get(str(appid), {}).get('data', {})
     if not game_details:
         return "Game details not found.", 404
-    game_notes = next((item for item in ratings if item['appid'] == appid), {}).get('notes', "No notes available for this game.")
+    game_notes = next((item for item in ratings if item['appid'] == appid), {}).get('notes', [])
+    if not game_notes:
+        game_notes = ["No notes available for this game."]
+
     game_rating_info = next((item for item in ratings if item['appid'] == appid), None)
     if game_rating_info and game_rating_info['ratings']:
         average_rating = sum(game_rating_info['ratings']) / len(game_rating_info['ratings'])
@@ -76,6 +79,25 @@ def rate_game():
         json.dump(ratings, f, indent=4)
     
     return jsonify({"success": True})
+
+@app.route('/add_note/<int:appid>', methods=['POST'])
+def add_note(appid):
+    new_note = request.form['note']
+    if new_note:
+        for game in ratings:
+            if game['appid'] == appid:
+                if 'notes' not in game or not isinstance(game['notes'], list):
+                    game['notes'] = []
+                game['notes'].append(new_note)
+                break
+        else:
+            # If the game is not found in ratings, add a new entry
+            ratings.append({"appid": appid, "ratings": [], "notes": [new_note]})
+    
+        with open('ratings.json', 'w') as f:
+            json.dump(ratings, f, indent=4)
+
+    return redirect(url_for('game_details', appid=appid))
 
 
 if __name__ == '__main__':

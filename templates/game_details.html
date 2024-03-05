@@ -11,10 +11,18 @@
         <img src="{{ game.header_image }}" alt="{{ game.name }} header image">
         <p>Release Date: {{ game.release_date.date }}</p>
         <p>Average Rating: <span class="{{ rating_category|lower }}">{{ rating_category }}</span> ({{ average_rating }})</p>
-        <div id="game-notes">
-            <h2>Notes:</h2>
-            <p>{{ notes }}</p>
-        </div>
+        
+        <div id="notes-section">
+            {% if notes[0] != "No notes available for this game." %}
+                {% for note in notes %}
+                    <div class="note">{{ note }}</div>
+                    <hr>
+                {% endfor %}
+            {% else %}
+                <p>{{ notes[0] }}</p>
+            {% endif %}
+        </div>        
+
         <div id="rating-buttons">
             <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="0" onclick="submitRating(this)">Unsupported</button>
             <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="1" onclick="submitRating(this)">Bronze</button>
@@ -22,7 +30,11 @@
             <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="3" onclick="submitRating(this)">Gold</button>
             <button class="rating-btn" data-appid="{{ game.steam_appid }}" data-rating="4" onclick="submitRating(this)">Platinum</button>
         </div>
-        
+
+        <form action="/add_note/{{ game.steam_appid }}" method="post">
+            <textarea name="note" placeholder="Add a note..."></textarea>
+            <button type="submit">Submit Note</button>
+        </form>            
     </div>
     <script src="/static/script.js"></script>
 </body>

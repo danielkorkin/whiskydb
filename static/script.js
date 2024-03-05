@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('searchBtn').addEventListener('click', function() {
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
         const query = document.getElementById('searchQuery').value;
         fetch('/search', {
             method: 'POST',
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 function submitRating(element) {
     var appid = element.dataset.appid;
     var rating = element.dataset.rating;
@@ -37,6 +39,7 @@ function submitRating(element) {
     .then(data => {
         if (data.success) {
             alert("Rating submitted successfully!");
+            location.reload();
             // Optionally refresh the game details to reflect the new rating
         }
     })

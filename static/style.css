@@ -14,6 +14,7 @@ input[type="text"], button {
     border: none;
     border-radius: 5px;
     margin-right: 5px;
+    margin-bottom: 10px;
 }
 
 input[type="text"] {
@@ -24,6 +25,7 @@ button {
     cursor: pointer;
     background-color: #333;
     color: white;
+    width: calc(100% - 100px);
 }
 
 button:hover {
@@ -54,6 +56,26 @@ button:hover {
     border-radius: 5px;
     margin-top: 20px;
 }
+
+#notes-section {
+    margin-top: 20px;
+}
+
+.note {
+    padding: 10px;
+    background-color: #f0f0f0;
+    color: #000;
+}
+
+form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+form button {
+    display: block;
+}
+
 
 .unsupported { color: #808080; } /* Gray */
 .bronze { color: #cd7f32; } /* Bronze */
